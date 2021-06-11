@@ -6,4 +6,4 @@ from selfservice.models import Winner
 
 class WinnerViewSet(viewsets.ModelViewSet):
     queryset =  Winner.objects.all().order_by("date")
-    serializer_cls = WinnerSerializer
+    serializer_class = WinnerSerializer
