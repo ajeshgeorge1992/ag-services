@@ -1,15 +1,15 @@
-from typing_extensions import ParamSpecArgs
 from bs4 import BeautifulSoup
 import requests
-from models import Winner
+from datetime import datetime
+from selfservice.models import Winner
 
 
 
 def process_results(ritems):
     for item in ritems:
         date_split = item['date'].split(",")
-        item_date =  date_split[0].strip()
-        item_day = datetime.strftime(
+        item_day =  date_split[0].strip()
+        item_date = datetime.strftime(
                 datetime.strptime(
                     date_split[1].strip() + "," + date_split[2].strip(), "%B %d,%Y"
                 ),
@@ -42,7 +42,7 @@ def process_results(ritems):
             w20 = int(item["winners"][19])
         )
         if winner:
-            print("data inserted")
+            print("data inserted",item_date)
 
 def my_scheduled_job():
     file = requests.get("https://www.theluckygene.com/LotteryResults.aspx?gid=OntarioDailyKeno")

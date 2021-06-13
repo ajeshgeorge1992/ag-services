@@ -131,5 +131,5 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRONJOBS = [
-    ('*/1 * * * *', 'prophecy.cron.my_scheduled_job','>> /tmp/scheduled_job.log')
+    ('*/1 * * * *', 'selfservice.cron.my_scheduled_job','>> /tmp/scheduled_job.log')
 ]

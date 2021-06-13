@@ -1,5 +1,7 @@
 import csv
 from datetime import datetime
+from bs4 import BeautifulSoup
+import requests
 
 class helper():
 
@@ -19,4 +21,46 @@ class helper():
                 data.append(single_row)
                 
         return data
-    
+
+def process_results(ritems):
+    for item in ritems:
+        date_split = item['date'].split(",")
+        item_date =  date_split[0].strip()
+        item_day = datetime.strftime(
+                datetime.strptime(
+                    date_split[1].strip() + "," + date_split[2].strip(), "%B %d,%Y"
+                ),
+                "%Y-%m-%d",
+            )
+
+def my_scheduled_job():
+    file = requests.get("https://www.theluckygene.com/LotteryResults.aspx?gid=OntarioDailyKeno")
+    clean_slate = file.text.replace('\n', ' ').replace('\r', '')
+    soup = BeautifulSoup(clean_slate, 'html.parser')
+    results = soup.find('table', {'class' : 'restbl'}).find_all('tr')[1:-4]
+    winners = []
+    w_item = {}
+    r_items =[]
+    passq =0
+    draw_d = ""
+    for it in results:
+        item = it.find_all('td')
+        if len(item) == 12:
+            draw_d = item[0].text.strip()
+            w_item['draw_time'] = item[1].text.strip()
+        elif len(item)==11:
+            w_item['draw_time'] = item[0].text.strip()
+
+        for i in item[-10:]:
+                r_items.append(i.text.strip())
+
+        if len(r_items)==20:
+            w_item["date"] = draw_d
+            w_item['winners'] = r_items.copy()
+            winners.append(w_item.copy())
+            w_item.clear()
+            r_items.clear()
+    # print(winners)
+    process_results(winners)
+
+my_scheduled_job()
