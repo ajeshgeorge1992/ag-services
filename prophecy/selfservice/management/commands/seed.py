@@ -6,7 +6,7 @@ from datetime import date, datetime
 def seed_from_tsv():
     data = []
     with open(
-        "/Users/ajeshgeorge/Documents/Django Projects/Lot/DataFormatted.tsv"
+        "DataFormatted.tsv"
     ) as fd:
         rd = csv.reader(fd, delimiter="\t", quotechar='"')
         for row in rd:
