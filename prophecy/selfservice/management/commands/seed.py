@@ -64,8 +64,8 @@ def clear_data():
 
 class Command(BaseCommand):
   def handle(self, *args, **options):
-    clear_data()
-    # seed_data()
+    # clear_data()
+    seed_data()
     print("completed")
 
 # seed_from_tsv()
